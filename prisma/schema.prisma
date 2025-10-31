@@ -91,4 +91,17 @@ model Form {
   updatedAt DateTime @updatedAt
 
   shop      Shop     @relation(fields: [shopId], references: [id], onDelete: Cascade)
+  events    Event[]
+}
+
+model Event {
+  id        String   @id @default(cuid())
+  formId    String
+  date      DateTime
+  startTime String?
+  endTime   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  form      Form     @relation(fields: [formId], references: [id], onDelete: Cascade)
 }

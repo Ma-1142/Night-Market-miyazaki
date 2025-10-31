@@ -80,9 +80,6 @@ export default async function ApplicationsPage() {
                     申込日
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    審査ステータス
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     アクション
                   </th>
                 </tr>
@@ -90,7 +87,7 @@ export default async function ApplicationsPage() {
               <tbody className="bg-white divide-y divide-gray-200">
                 {forms.length === 0 ? (
                   <tr>
-                    <td colSpan={6} className="px-6 py-12 text-center text-gray-500">
+                    <td colSpan={5} className="px-6 py-12 text-center text-gray-500">
                       応募がまだありません
                     </td>
                   </tr>
@@ -109,19 +106,13 @@ export default async function ApplicationsPage() {
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                         {new Date(form.createdAt).toLocaleDateString("ja-JP")}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <select className="text-xs rounded-full px-2 py-1 border">
-                          <option value="pending">受理</option>
-                          <option value="reviewing">審査中</option>
-                          <option value="conditions">条件提示</option>
-                          <option value="confirmed">確定</option>
-                          <option value="rejected">却下</option>
-                        </select>
-                      </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm">
-                        <button className="text-blue-600 hover:text-blue-900 mr-3">
+                        <Link
+                          href={`/dashboard/admin/applications/${form.id}`}
+                          className="text-blue-600 hover:text-blue-900 hover:underline mr-3"
+                        >
                           詳細
-                        </button>
+                        </Link>
                         <button className="text-green-600 hover:text-green-900">
                           編集
                         </button>

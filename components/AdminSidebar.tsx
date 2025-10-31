@@ -48,6 +48,13 @@ export default function AdminSidebar() {
           <h2 className="text-xl font-bold mb-6">管理者メニュー</h2>
           <nav className="space-y-2">
             <Link
+              href="/dashboard/admin"
+              className="block rounded-md px-4 py-2 text-gray-700 hover:bg-gray-100"
+              onClick={() => setIsOpen(false)}
+            >
+              ダッシュボード
+            </Link>
+            <Link
               href="/dashboard/admin/applications"
               className="block rounded-md px-4 py-2 text-gray-700 hover:bg-gray-100"
               onClick={() => setIsOpen(false)}

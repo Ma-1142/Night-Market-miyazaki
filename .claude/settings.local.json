@@ -3,7 +3,13 @@
     "allow": [
       "Bash(npm install:*)",
       "Bash(npm run dev)",
-      "Bash(npx prisma migrate:*)"
+      "Bash(npx prisma migrate:*)",
+      "Bash(netstat:*)",
+      "Bash(findstr:*)",
+      "Bash(cmd //c \"taskkill /PID 59816 /F\")",
+      "Bash(cmd //c \"taskkill /F /PID 64460\")",
+      "Bash(npx prisma studio:*)",
+      "Bash(cmd //c \"taskkill /F /PID 63580\")"
     ],
     "deny": [],
     "ask": []
