@@ -83,15 +83,16 @@ model Shop {
 }
 
 model Form {
-  id        String   @id @default(cuid())
-  shopId    String
-  data      Json
-  status    String   @default("pending")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id         String   @id @default(cuid())
+  shopId     String
+  data       Json
+  status     String   @default("pending")
+  adminNotes String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 
-  shop      Shop     @relation(fields: [shopId], references: [id], onDelete: Cascade)
-  events    Event[]
+  shop       Shop     @relation(fields: [shopId], references: [id], onDelete: Cascade)
+  events     Event[]
 }
 
 model Event {

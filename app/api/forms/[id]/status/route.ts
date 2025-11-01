@@ -16,10 +16,10 @@ export async function PATCH(
     }
 
     const body = await request.json();
-    const { status } = body;
+    const { status, adminNotes } = body;
 
     // Validate status
-    if (!["pending", "approved", "rejected"].includes(status)) {
+    if (!["pending", "reviewing", "conditional", "approved", "rejected"].includes(status)) {
       return NextResponse.json(
         { error: "Invalid status value" },
         { status: 400 }
@@ -35,10 +35,13 @@ export async function PATCH(
       return NextResponse.json({ error: "Form not found" }, { status: 404 });
     }
 
-    // Update the form status
+    // Update the form status and admin notes
     const updatedForm = await prisma.form.update({
       where: { id },
-      data: { status },
+      data: {
+        status,
+        ...(adminNotes !== undefined && { adminNotes })
+      },
     });
 
     return NextResponse.json(updatedForm);

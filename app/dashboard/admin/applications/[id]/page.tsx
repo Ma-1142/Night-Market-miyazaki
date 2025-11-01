@@ -45,6 +45,10 @@ export default async function AdminFormDetailPage({
     switch (status) {
       case "pending":
         return { label: "受理", color: "bg-yellow-100 text-yellow-800" };
+      case "reviewing":
+        return { label: "審査中", color: "bg-blue-100 text-blue-800" };
+      case "conditional":
+        return { label: "条件提示", color: "bg-orange-100 text-orange-800" };
       case "approved":
         return { label: "確定", color: "bg-green-100 text-green-800" };
       case "rejected":
@@ -95,7 +99,11 @@ export default async function AdminFormDetailPage({
           <FormDetailView formData={formData} form={form} />
 
           <div className="mt-6">
-            <StatusUpdater formId={form.id} currentStatus={form.status} />
+            <StatusUpdater
+              formId={form.id}
+              currentStatus={form.status}
+              currentAdminNotes={form.adminNotes}
+            />
           </div>
 
           <div className="mt-6 flex gap-4">

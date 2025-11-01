@@ -6,17 +6,19 @@ import { useRouter } from "next/navigation";
 type StatusUpdaterProps = {
   formId: string;
   currentStatus: string;
+  currentAdminNotes?: string | null;
 };
 
-export default function StatusUpdater({ formId, currentStatus }: StatusUpdaterProps) {
+export default function StatusUpdater({ formId, currentStatus, currentAdminNotes }: StatusUpdaterProps) {
   const [status, setStatus] = useState(currentStatus);
+  const [adminNotes, setAdminNotes] = useState(currentAdminNotes || "");
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
   const router = useRouter();
 
   const handleSave = async () => {
-    if (status === currentStatus) {
-      setMessage({ type: "error", text: "ステータスが変更されていません" });
+    if (status === currentStatus && adminNotes === (currentAdminNotes || "")) {
+      setMessage({ type: "error", text: "変更がありません" });
       return;
     }
 
@@ -29,7 +31,7 @@ export default function StatusUpdater({ formId, currentStatus }: StatusUpdaterPr
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ status }),
+        body: JSON.stringify({ status, adminNotes }),
       });
 
       if (!response.ok) {
@@ -51,6 +53,10 @@ export default function StatusUpdater({ formId, currentStatus }: StatusUpdaterPr
     switch (statusValue) {
       case "pending":
         return "受理";
+      case "reviewing":
+        return "審査中";
+      case "conditional":
+        return "条件提示";
       case "approved":
         return "確定";
       case "rejected":
@@ -88,22 +94,44 @@ export default function StatusUpdater({ formId, currentStatus }: StatusUpdaterPr
             className="w-full rounded-md border border-gray-300 px-4 py-2 focus:border-blue-500 focus:outline-none disabled:bg-gray-100"
           >
             <option value="pending">{getStatusLabel("pending")}</option>
+            <option value="reviewing">{getStatusLabel("reviewing")}</option>
+            <option value="conditional">{getStatusLabel("conditional")}</option>
             <option value="approved">{getStatusLabel("approved")}</option>
             <option value="rejected">{getStatusLabel("rejected")}</option>
           </select>
         </div>
 
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            管理者メモ
+          </label>
+          <textarea
+            value={adminNotes}
+            onChange={(e) => setAdminNotes(e.target.value)}
+            disabled={isLoading}
+            rows={4}
+            placeholder="内部メモ（出店者には表示されません）"
+            className="w-full rounded-md border border-gray-300 px-4 py-2 focus:border-blue-500 focus:outline-none disabled:bg-gray-100"
+          />
+          <p className="mt-1 text-xs text-gray-500">
+            このメモは管理者とスタッフのみが閲覧できます
+          </p>
+        </div>
+
         <div className="flex gap-3">
           <button
             onClick={handleSave}
-            disabled={isLoading || status === currentStatus}
+            disabled={isLoading || (status === currentStatus && adminNotes === (currentAdminNotes || ""))}
             className="rounded-md bg-blue-600 px-6 py-2 text-white hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
           >
             {isLoading ? "保存中..." : "保存"}
           </button>
-          {status !== currentStatus && (
+          {(status !== currentStatus || adminNotes !== (currentAdminNotes || "")) && (
             <button
-              onClick={() => setStatus(currentStatus)}
+              onClick={() => {
+                setStatus(currentStatus);
+                setAdminNotes(currentAdminNotes || "");
+              }}
               disabled={isLoading}
               className="rounded-md bg-gray-200 px-6 py-2 text-gray-700 hover:bg-gray-300 disabled:bg-gray-100"
             >
