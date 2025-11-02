@@ -8,14 +8,17 @@ import AdminSidebar from "@/components/AdminSidebar";
 interface Assignment {
   id: string;
   boothId: string;
-  event: {
+  formId: string | null;
+  form?: {
     id: string;
-    date: string;
-    form: {
-      shop: {
-        name: string;
+    shop: {
+      name: string;
+      user: {
+        name: string | null;
+        email: string;
       };
     };
+    data: any;
   };
 }
 
@@ -34,6 +37,7 @@ export default function LayoutMapEditPage() {
   const [uploading, setUploading] = useState(false);
   const [assigning, setAssigning] = useState(false);
   const [assignResult, setAssignResult] = useState<{message: string; count: number} | null>(null);
+  const [publishDateTime, setPublishDateTime] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -125,19 +129,58 @@ export default function LayoutMapEditPage() {
   };
 
   const handlePublish = async () => {
-    if (!layoutMap?.imageUrl) {
-      alert("❌ 配置図画像をアップロードしてください");
-      return;
-    }
     if (layoutMap.assignments.length === 0) {
       alert("❌ ブース割り振りを実行してください");
+      return;
+    }
+
+    if (!publishDateTime) {
+      alert("❌ 公開日時を設定してください");
       return;
     }
 
     try {
       const response = await fetch(
         `/api/admin/layout-maps/${params.id}/publish`,
-        { method: "POST" }
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            publishAt: new Date(publishDateTime).toISOString(),
+          }),
+        }
+      );
+
+      if (response.ok) {
+        alert("✅ 公開日時を設定しました");
+        fetchLayoutMap();
+      }
+    } catch (error) {
+      console.error("Error publishing:", error);
+      alert("❌ 公開設定に失敗しました");
+    }
+  };
+
+  const handlePublishNow = async () => {
+    if (layoutMap.assignments.length === 0) {
+      alert("❌ ブース割り振りを実行してください");
+      return;
+    }
+
+    if (!confirm("今すぐ配置図を公開しますか？")) {
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `/api/admin/layout-maps/${params.id}/publish`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            publishAt: new Date().toISOString(),
+          }),
+        }
       );
 
       if (response.ok) {
@@ -244,45 +287,58 @@ export default function LayoutMapEditPage() {
             <div className="rounded-xl border-2 border-gray-200 bg-white p-6 shadow-sm">
               <h2 className="mb-4 text-2xl font-bold">配置図画像</h2>
 
-              {layoutMap.imageUrl ? (
-                <div className="mb-4">
-                  <div className="relative w-full overflow-hidden rounded-lg border-2 border-gray-300">
-                    <img
-                      src={layoutMap.imageUrl}
-                      alt="配置図"
-                      className="w-full"
-                    />
-                  </div>
-                  <p className="mt-2 text-sm text-gray-600">
-                    ナイトマーケット 50-100店舗
-                  </p>
+              <div className="mb-4">
+                <div className="relative w-full overflow-hidden rounded-lg border-2 border-gray-300">
+                  <img
+                    src="/resource/arrangement.png"
+                    alt="配置図"
+                    className="w-full"
+                  />
+                </div>
+                <p className="mt-2 text-sm text-gray-600">
+                  ナイトマーケット配置図（グループA-D、各40ブース）
+                </p>
+              </div>
+            </div>
+
+            {/* 公開タイミング設定 */}
+            <div className="rounded-xl border-2 border-gray-200 bg-white p-6 shadow-sm">
+              <h2 className="mb-4 text-2xl font-bold">公開タイミング設定</h2>
+
+              {layoutMap.isPublished ? (
+                <div className="rounded-lg bg-green-50 p-4">
+                  <div className="font-bold text-green-900">✓ 公開中</div>
+                  {layoutMap.publishAt && (
+                    <div className="mt-2 text-sm text-green-700">
+                      公開日時: {new Date(layoutMap.publishAt).toLocaleString("ja-JP")}
+                    </div>
+                  )}
                 </div>
               ) : (
-                <div className="mb-4 flex h-96 flex-col items-center justify-center rounded-lg border-4 border-dashed border-gray-300 bg-gray-50">
-                  <div className="text-6xl text-gray-300">📍</div>
-                  <p className="mt-4 text-lg font-semibold text-gray-400">
-                    配置図画像が未設定です
-                  </p>
-                  <p className="mt-2 text-sm text-gray-500">
-                    下のボタンから画像をアップロードしてください
+                <div className="space-y-4">
+                  <div>
+                    <label className="mb-2 block text-sm font-medium text-gray-700">
+                      公開日時を設定
+                    </label>
+                    <input
+                      type="datetime-local"
+                      value={publishDateTime}
+                      onChange={(e) => setPublishDateTime(e.target.value)}
+                      className="w-full rounded-lg border border-gray-300 px-4 py-2"
+                    />
+                  </div>
+                  <button
+                    onClick={handlePublish}
+                    disabled={!publishDateTime}
+                    className="w-full rounded-lg bg-blue-600 px-6 py-3 font-semibold text-white hover:bg-blue-700 disabled:bg-gray-400"
+                  >
+                    📅 公開予約を設定
+                  </button>
+                  <p className="text-xs text-gray-500">
+                    設定した日時に自動的にスタッフと出店者に公開されます
                   </p>
                 </div>
               )}
-
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept="image/*"
-                onChange={handleImageUpload}
-                className="hidden"
-              />
-              <button
-                onClick={() => fileInputRef.current?.click()}
-                disabled={uploading}
-                className="w-full rounded-lg bg-blue-600 px-6 py-3 font-semibold text-white hover:bg-blue-700 disabled:bg-gray-400"
-              >
-                {uploading ? "⏳ アップロード中..." : "📁 画像をアップロード"}
-              </button>
             </div>
 
             {/* 操作ボタン */}
@@ -293,9 +349,9 @@ export default function LayoutMapEditPage() {
                 <button
                   onClick={handleAutoAssign}
                   disabled={assigning}
-                  className="w-full rounded-lg bg-green-600 px-6 py-4 text-lg font-bold text-white hover:bg-green-700 disabled:bg-gray-400"
+                  className="w-full rounded-lg bg-purple-600 px-6 py-4 text-lg font-bold text-white hover:bg-purple-700 disabled:bg-gray-400"
                 >
-                  {assigning ? "⏳ 割り振り中..." : "🎯 自動割り振り実行 (A01〜D40)"}
+                  {assigning ? "⏳ 割り振り中..." : "🎲 自動抽選 (A01〜D40)"}
                 </button>
 
                 <div className="rounded bg-blue-50 p-3 text-sm text-blue-900">
@@ -311,10 +367,10 @@ export default function LayoutMapEditPage() {
                   </button>
                 ) : (
                   <button
-                    onClick={handlePublish}
-                    className="w-full rounded-lg bg-purple-600 px-6 py-3 font-semibold text-white hover:bg-purple-700"
+                    onClick={handlePublishNow}
+                    className="w-full rounded-lg bg-green-600 px-6 py-3 font-semibold text-white hover:bg-green-700"
                   >
-                    🚀 公開する
+                    ✓ 今すぐ公開
                   </button>
                 )}
               </div>
@@ -353,18 +409,32 @@ export default function LayoutMapEditPage() {
                           .map((assignment) => (
                             <div
                               key={assignment.id}
-                              className="flex items-center gap-3 rounded bg-white p-3 shadow-sm"
+                              className={`flex items-center gap-3 rounded p-3 shadow-sm ${
+                                assignment.form
+                                  ? "bg-white"
+                                  : "bg-gray-100"
+                              }`}
                             >
-                              <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-blue-600 font-bold text-white">
+                              <div className={`flex h-12 w-12 items-center justify-center rounded-lg font-bold text-white text-xs ${
+                                assignment.form
+                                  ? "bg-blue-600"
+                                  : "bg-gray-400"
+                              }`}>
                                 {assignment.boothId}
                               </div>
                               <div className="flex-1 min-w-0">
-                                <div className="truncate font-semibold text-gray-900">
-                                  {assignment.event.form.shop.name}
-                                </div>
-                                <div className="text-xs text-gray-500">
-                                  {new Date(assignment.event.date).toLocaleDateString("ja-JP")}
-                                </div>
+                                {assignment.form ? (
+                                  <>
+                                    <div className="truncate font-semibold text-gray-900">
+                                      {assignment.form.shop.name}
+                                    </div>
+                                    <div className="text-xs text-gray-500">
+                                      {assignment.form.shop.user.name || assignment.form.shop.user.email}
+                                    </div>
+                                  </>
+                                ) : (
+                                  <div className="text-sm text-gray-500">未割り当て</div>
+                                )}
                               </div>
                             </div>
                           ))}

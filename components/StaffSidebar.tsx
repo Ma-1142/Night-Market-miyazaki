@@ -40,9 +40,8 @@ export default function StaffSidebar() {
 
       {/* Sidebar */}
       <div
-        className={`fixed left-0 top-0 z-40 h-full w-64 transform bg-white shadow-lg transition-transform duration-300 ease-in-out ${
-          isOpen ? "translate-x-0" : "-translate-x-full"
-        }`}
+        className="fixed left-0 top-0 z-40 h-full w-64 transform bg-white shadow-lg transition-transform duration-300 ease-in-out"
+        style={{ transform: isOpen ? 'translateX(0)' : 'translateX(-100%)' }}
       >
         <div className="p-6">
           <h2 className="text-xl font-bold mb-6">メニュー</h2>
@@ -74,6 +73,13 @@ export default function StaffSidebar() {
               onClick={() => setIsOpen(false)}
             >
               4. 申込一覧
+            </Link>
+            <Link
+              href="/dashboard/staff/layout"
+              className="block rounded-md px-4 py-2 text-gray-700 hover:bg-gray-100"
+              onClick={() => setIsOpen(false)}
+            >
+              5. 配置図
             </Link>
           </nav>
         </div>

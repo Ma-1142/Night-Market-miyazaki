@@ -99,17 +99,17 @@ model Form {
 }
 
 model Event {
-  id               String             @id @default(cuid())
-  formId           String
-  date             DateTime
-  startTime        String?
-  endTime          String?
-  createdAt        DateTime           @default(now())
-  updatedAt        DateTime           @updatedAt
+  id          String     @id @default(cuid())
+  formId      String
+  date        DateTime
+  startTime   String?
+  endTime     String?
+  layoutMapId String?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
 
-  form             Form               @relation(fields: [formId], references: [id], onDelete: Cascade)
-  layoutAssignment LayoutAssignment?
-  layoutMaps       LayoutMap[]
+  form        Form       @relation(fields: [formId], references: [id], onDelete: Cascade)
+  layoutMap   LayoutMap? @relation(fields: [layoutMapId], references: [id])
 }
 
 model ChatRoom {
@@ -146,27 +146,43 @@ model DirectMessage {
 
 model LayoutMap {
   id          String             @id @default(cuid())
-  eventId     String?
   imageUrl    String?
   publishAt   DateTime?
   isPublished Boolean            @default(false)
   createdAt   DateTime           @default(now())
   updatedAt   DateTime           @updatedAt
 
-  event       Event?             @relation(fields: [eventId], references: [id], onDelete: Cascade)
   assignments LayoutAssignment[]
+  events      Event[]
 }
 
 model LayoutAssignment {
   id          String    @id @default(cuid())
   layoutMapId String
-  eventId     String    @unique
-  boothId     String
+  formId      String?
+  boothId     String    // A01-A40, B01-B40, C01-C40, D01-D40
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 
   layoutMap   LayoutMap @relation(fields: [layoutMapId], references: [id], onDelete: Cascade)
-  event       Event     @relation(fields: [eventId], references: [id], onDelete: Cascade)
 
   @@unique([layoutMapId, boothId])
+}
+
+// Global layout settings (single row for the entire system)
+model LayoutSettings {
+  id          String    @id @default("global")
+  publishAt   DateTime?
+  isPublished Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+// Booth assignments for approved vendors (global assignments)
+model BoothAssignment {
+  id        String   @id @default(cuid())
+  formId    String   @unique // One booth per approved application
+  boothId   String   @unique // A01-A40, B01-B40, C01-C40, D01-D40
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

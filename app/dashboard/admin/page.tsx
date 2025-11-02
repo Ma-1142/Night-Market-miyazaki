@@ -89,12 +89,14 @@ export default async function AdminDashboardPage() {
                 ようこそ、{session.user?.name || session.user?.email}さん
               </p>
             </div>
-            <Link
-              href="/api/auth/signout"
-              className="rounded-md bg-red-600 px-4 py-2 text-white hover:bg-red-700"
-            >
-              ログアウト
-            </Link>
+            <form action="/api/auth/signout" method="POST">
+              <button
+                type="submit"
+                className="rounded-md bg-red-600 px-4 py-2 text-white hover:bg-red-700"
+              >
+                ログアウト
+              </button>
+            </form>
           </div>
 
           <div className="grid gap-6 md:grid-cols-3 mb-8">

@@ -18,29 +18,23 @@ export async function GET(
     const layoutMap = await prisma.layoutMap.findUnique({
       where: { id },
       include: {
-        event: {
+        assignments: {
           include: {
             form: {
               include: {
-                shop: true
-              }
-            }
-          }
-        },
-        assignments: {
-          include: {
-            event: {
-              include: {
-                form: {
+                shop: {
                   include: {
-                    shop: true
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
+                    user: true,
+                  },
+                },
+              },
+            },
+          },
+          orderBy: {
+            boothId: "asc",
+          },
+        },
+      },
     });
 
     if (!layoutMap) {

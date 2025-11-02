@@ -13,16 +13,6 @@ export async function GET() {
 
     const layoutMaps = await prisma.layoutMap.findMany({
       include: {
-        event: {
-          include: {
-            form: {
-              include: {
-                shop: true
-              }
-            }
-          }
-        },
-        assignments: true,
         _count: {
           select: { assignments: true }
         }
@@ -49,14 +39,10 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
     }
 
-    const body = await request.json();
-    const { eventId, imageUrl, publishAt } = body;
-
     const layoutMap = await prisma.layoutMap.create({
       data: {
-        eventId,
-        imageUrl,
-        publishAt: publishAt ? new Date(publishAt) : null,
+        imageUrl: null,
+        publishAt: null,
         isPublished: false
       }
     });

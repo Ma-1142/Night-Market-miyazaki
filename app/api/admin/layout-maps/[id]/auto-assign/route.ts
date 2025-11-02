@@ -32,7 +32,6 @@ export async function POST(
     // 配置図が存在するか確認
     const layoutMap = await prisma.layoutMap.findUnique({
       where: { id: layoutMapId },
-      include: { event: true }
     });
 
     if (!layoutMap) {
@@ -42,30 +41,30 @@ export async function POST(
       );
     }
 
-    // 承認済みの出店者を取得（イベントに紐付いているフォーム）
+    // 承認済みの出店者を取得
     const approvedForms = await prisma.form.findMany({
       where: {
         status: "approved",
-        events: {
-          some: {}
-        }
       },
       include: {
-        events: true,
-        shop: true
-      }
+        shop: {
+          include: {
+            user: true,
+          },
+        },
+      },
     });
 
     if (approvedForms.length === 0) {
       return NextResponse.json(
-        { error: "No approved exhibitors found" },
+        { error: "承認済みの出店者が見つかりません" },
         { status: 400 }
       );
     }
 
     if (approvedForms.length > 160) {
       return NextResponse.json(
-        { error: "Too many exhibitors. Maximum 160 booths (A01-D40)" },
+        { error: "出店者数が多すぎます。最大160ブース（A01～D40）" },
         { status: 400 }
       );
     }
@@ -75,17 +74,15 @@ export async function POST(
       where: { layoutMapId }
     });
 
+    // シャッフル（ランダム抽選）
+    const shuffledForms = [...approvedForms].sort(() => Math.random() - 0.5);
+
     // 新しい割り当てを作成
-    const assignments = approvedForms.flatMap((form, formIndex) => {
-      return form.events.map((event, eventIndex) => {
-        const boothId = generateBoothId(formIndex * form.events.length + eventIndex);
-        return {
-          layoutMapId,
-          eventId: event.id,
-          boothId
-        };
-      });
-    });
+    const assignments = shuffledForms.map((form, index) => ({
+      layoutMapId,
+      formId: form.id,
+      boothId: generateBoothId(index),
+    }));
 
     // 一括作成
     const createdAssignments = await prisma.layoutAssignment.createMany({
@@ -96,20 +93,23 @@ export async function POST(
     const result = await prisma.layoutAssignment.findMany({
       where: { layoutMapId },
       include: {
-        event: {
+        form: {
           include: {
-            form: {
+            shop: {
               include: {
-                shop: true
-              }
-            }
-          }
-        }
-      }
+                user: true,
+              },
+            },
+          },
+        },
+      },
+      orderBy: {
+        boothId: "asc",
+      },
     });
 
     return NextResponse.json({
-      message: "Auto-assignment completed successfully",
+      message: "自動抽選が完了しました",
       assignedCount: createdAssignments.count,
       assignments: result
     });
