@@ -97,25 +97,39 @@ export default function AdminSidebar() {
               6. 来場・当日運用
             </Link>
             <Link
+              href="/dashboard/admin/announcements"
+              className="block rounded-md px-4 py-2 text-gray-700 hover:bg-gray-100"
+              onClick={() => setIsOpen(false)}
+            >
+              7a. お知らせボード
+            </Link>
+            <Link
+              href="/dashboard/admin/direct-chat"
+              className="block rounded-md px-4 py-2 text-gray-700 hover:bg-gray-100"
+              onClick={() => setIsOpen(false)}
+            >
+              7b. 個別チャット
+            </Link>
+            <Link
               href="/dashboard/admin/notifications"
               className="block rounded-md px-4 py-2 text-gray-700 hover:bg-gray-100"
               onClick={() => setIsOpen(false)}
             >
-              7. 通知・アナウンス
+              8. 通知・アナウンス
             </Link>
             <Link
               href="/dashboard/admin/reports"
               className="block rounded-md px-4 py-2 text-gray-700 hover:bg-gray-100"
               onClick={() => setIsOpen(false)}
             >
-              8. レポート／統計
+              9. レポート／統計
             </Link>
             <Link
               href="/dashboard/admin/security"
               className="block rounded-md px-4 py-2 text-gray-700 hover:bg-gray-100"
               onClick={() => setIsOpen(false)}
             >
-              9. 権限・セキュリティ
+              10. 権限・セキュリティ
             </Link>
           </nav>
         </div>

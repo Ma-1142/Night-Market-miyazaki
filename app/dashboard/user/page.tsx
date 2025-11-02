@@ -119,7 +119,6 @@ export default async function UserDashboardPage() {
                   店舗: {nextEvent.form.shop.name}
                 </p>
               </div>
-              <div className="text-6xl">📅</div>
             </div>
           </div>
         )}
@@ -206,12 +205,22 @@ export default async function UserDashboardPage() {
                         <td className="px-6 py-4 whitespace-nowrap">
                           {form.status === "pending" && (
                             <span className="inline-flex rounded-full bg-yellow-100 px-2 text-xs font-semibold leading-5 text-yellow-800">
+                              受理
+                            </span>
+                          )}
+                          {form.status === "reviewing" && (
+                            <span className="inline-flex rounded-full bg-blue-100 px-2 text-xs font-semibold leading-5 text-blue-800">
                               審査中
+                            </span>
+                          )}
+                          {form.status === "conditional" && (
+                            <span className="inline-flex rounded-full bg-orange-100 px-2 text-xs font-semibold leading-5 text-orange-800">
+                              条件提示
                             </span>
                           )}
                           {form.status === "approved" && (
                             <span className="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">
-                              承認済み
+                              確定
                             </span>
                           )}
                           {form.status === "rejected" && (
@@ -236,6 +245,30 @@ export default async function UserDashboardPage() {
             )}
           </div>
 
+          {/* Communication Links */}
+          <div className="rounded-lg bg-white p-8 shadow-md">
+            <div className="mb-6 text-center">
+              <h2 className="text-2xl font-bold">管理者との連絡</h2>
+              <p className="mt-2 text-gray-600">お知らせの確認や質問はこちらから</p>
+            </div>
+            <div className="grid gap-4 md:grid-cols-2">
+              <Link
+                href="/dashboard/user/announcements"
+                className="flex flex-col items-center rounded-lg border-2 border-yellow-500 bg-white p-6 text-center transition-all hover:bg-yellow-50 hover:shadow-lg"
+              >
+                <h3 className="text-lg font-bold text-gray-800">お知らせ</h3>
+                <p className="mt-2 text-sm text-gray-600">運営からの重要なお知らせ</p>
+              </Link>
+              <Link
+                href="/dashboard/user/direct-chat"
+                className="flex flex-col items-center rounded-lg border-2 border-blue-500 bg-white p-6 text-center transition-all hover:bg-blue-50 hover:shadow-lg"
+              >
+                <h3 className="text-lg font-bold text-gray-800">個別チャット</h3>
+                <p className="mt-2 text-sm text-gray-600">管理者に直接質問</p>
+              </Link>
+            </div>
+          </div>
+
           {/* Form Selection */}
           <div className="rounded-lg bg-white p-8 shadow-md">
             <div className="mb-6 text-center">
@@ -248,7 +281,6 @@ export default async function UserDashboardPage() {
                 href="/dashboard/user/food"
                 className="flex flex-col items-center rounded-lg border-2 border-orange-500 bg-white p-6 text-center transition-all hover:bg-orange-50 hover:shadow-lg"
               >
-                <div className="mb-4 text-5xl">🍜</div>
                 <h3 className="text-lg font-bold text-gray-800">飲食出店フォーム</h3>
                 <p className="mt-2 text-sm text-gray-600">屋台・キッチンカー・飲食ブース</p>
               </Link>
@@ -257,7 +289,6 @@ export default async function UserDashboardPage() {
                 href="/dashboard/user/goods"
                 className="flex flex-col items-center rounded-lg border-2 border-purple-500 bg-white p-6 text-center transition-all hover:bg-purple-50 hover:shadow-lg"
               >
-                <div className="mb-4 text-5xl">🛍️</div>
                 <h3 className="text-lg font-bold text-gray-800">物販・雑貨出店フォーム</h3>
                 <p className="mt-2 text-sm text-gray-600">物販・雑貨・アクセサリーなど</p>
               </Link>
@@ -266,7 +297,6 @@ export default async function UserDashboardPage() {
                 href="/dashboard/user/workshop"
                 className="flex flex-col items-center rounded-lg border-2 border-green-500 bg-white p-6 text-center transition-all hover:bg-green-50 hover:shadow-lg"
               >
-                <div className="mb-4 text-5xl">✨</div>
                 <h3 className="text-lg font-bold text-gray-800">ワークショップ・体験・その他出店フォーム</h3>
                 <p className="mt-2 text-sm text-gray-600">体験型・その他のブース</p>
               </Link>

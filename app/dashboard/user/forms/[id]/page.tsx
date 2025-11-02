@@ -53,9 +53,13 @@ export default async function UserFormDetailPage({
   const getStatusLabel = (status: string) => {
     switch (status) {
       case "pending":
-        return { label: "審査中", color: "bg-yellow-100 text-yellow-800" };
+        return { label: "受理", color: "bg-yellow-100 text-yellow-800" };
+      case "reviewing":
+        return { label: "審査中", color: "bg-blue-100 text-blue-800" };
+      case "conditional":
+        return { label: "条件提示", color: "bg-orange-100 text-orange-800" };
       case "approved":
-        return { label: "承認済み", color: "bg-green-100 text-green-800" };
+        return { label: "確定", color: "bg-green-100 text-green-800" };
       case "rejected":
         return { label: "却下", color: "bg-red-100 text-red-800" };
       default:

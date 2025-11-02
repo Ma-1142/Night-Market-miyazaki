@@ -189,9 +189,9 @@ export default async function AdminDashboardPage() {
                               {shop.shopName}
                             </div>
                             <div className="text-xs text-gray-600 mt-1">
-                              {shop.formType === "food" && "🍜 飲食"}
-                              {shop.formType === "goods" && "🛍️ 物販"}
-                              {shop.formType === "workshop" && "✨ ワークショップ"}
+                              {shop.formType === "food" && "飲食"}
+                              {shop.formType === "goods" && "物販"}
+                              {shop.formType === "workshop" && "ワークショップ"}
                             </div>
                             <div className="text-xs text-blue-600 mt-1">
                               参加月: {shop.participationMonths.map((m) => `${m}月`).join("、")}

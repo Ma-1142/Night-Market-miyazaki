@@ -22,7 +22,7 @@ export default async function GoodsFormPage() {
             <Link href="/dashboard/user" className="text-blue-600 hover:underline mb-2 inline-block">
               ← 戻る
             </Link>
-            <h1 className="text-3xl font-bold">🛍️ 物販・雑貨出店フォーム</h1>
+            <h1 className="text-3xl font-bold">物販・雑貨出店フォーム</h1>
             <p className="mt-2 text-gray-600">物販・雑貨・アクセサリーなど</p>
           </div>
           <Link

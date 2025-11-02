@@ -116,12 +116,26 @@ export default async function StaffDashboardPage() {
                 ようこそ、{session.user?.name || session.user?.email}さん
               </p>
             </div>
-            <Link
-              href="/api/auth/signout"
-              className="rounded-md bg-gray-600 px-4 py-2 text-white hover:bg-gray-700"
-            >
-              ログアウト
-            </Link>
+            <div className="flex gap-2">
+              <Link
+                href="/dashboard/staff/announcements"
+                className="rounded-md bg-yellow-600 px-4 py-2 text-white hover:bg-yellow-700"
+              >
+                お知らせ
+              </Link>
+              <Link
+                href="/dashboard/staff/direct-chat"
+                className="rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
+              >
+                チャット
+              </Link>
+              <Link
+                href="/api/auth/signout"
+                className="rounded-md bg-gray-600 px-4 py-2 text-white hover:bg-gray-700"
+              >
+                ログアウト
+              </Link>
+            </div>
           </div>
 
           <div className="space-y-6">

@@ -30,9 +30,12 @@ model User {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
-  accounts      Account[]
-  sessions      Session[]
-  shops         Shop[]
+  accounts         Account[]
+  sessions         Session[]
+  shops            Shop[]
+  messages         Message[]
+  sentMessages     DirectMessage[] @relation("SentMessages")
+  receivedMessages DirectMessage[] @relation("ReceivedMessages")
 }
 
 model Account {
@@ -96,13 +99,74 @@ model Form {
 }
 
 model Event {
+  id               String             @id @default(cuid())
+  formId           String
+  date             DateTime
+  startTime        String?
+  endTime          String?
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+
+  form             Form               @relation(fields: [formId], references: [id], onDelete: Cascade)
+  layoutAssignment LayoutAssignment?
+  layoutMaps       LayoutMap[]
+}
+
+model ChatRoom {
   id        String   @id @default(cuid())
-  formId    String
-  date      DateTime
-  startTime String?
-  endTime   String?
+  name      String
+  type      String   // "USER" or "STAFF"
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  form      Form     @relation(fields: [formId], references: [id], onDelete: Cascade)
+  messages  Message[]
+}
+
+model Message {
+  id         String   @id @default(cuid())
+  chatRoomId String
+  senderId   String
+  content    String
+  createdAt  DateTime @default(now())
+
+  chatRoom   ChatRoom @relation(fields: [chatRoomId], references: [id], onDelete: Cascade)
+  sender     User     @relation(fields: [senderId], references: [id], onDelete: Cascade)
+}
+
+model DirectMessage {
+  id         String   @id @default(cuid())
+  senderId   String
+  receiverId String
+  content    String
+  createdAt  DateTime @default(now())
+
+  sender     User     @relation("SentMessages", fields: [senderId], references: [id], onDelete: Cascade)
+  receiver   User     @relation("ReceivedMessages", fields: [receiverId], references: [id], onDelete: Cascade)
+}
+
+model LayoutMap {
+  id          String             @id @default(cuid())
+  eventId     String?
+  imageUrl    String?
+  publishAt   DateTime?
+  isPublished Boolean            @default(false)
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+
+  event       Event?             @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  assignments LayoutAssignment[]
+}
+
+model LayoutAssignment {
+  id          String    @id @default(cuid())
+  layoutMapId String
+  eventId     String    @unique
+  boothId     String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  layoutMap   LayoutMap @relation(fields: [layoutMapId], references: [id], onDelete: Cascade)
+  event       Event     @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  @@unique([layoutMapId, boothId])
 }

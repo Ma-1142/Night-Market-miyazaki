@@ -44,7 +44,6 @@ export default function UserLoginPage() {
     <div className="flex min-h-screen items-center justify-center bg-gray-50">
       <div className="w-full max-w-md space-y-8 rounded-lg bg-white p-8 shadow-md">
         <div className="text-center">
-          <div className="mb-4 text-6xl">👤</div>
           <h2 className="text-3xl font-bold">出店者ログイン</h2>
           <p className="mt-2 text-gray-600">User Login</p>
         </div>

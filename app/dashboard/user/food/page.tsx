@@ -22,7 +22,7 @@ export default async function FoodFormPage() {
             <Link href="/dashboard/user" className="text-blue-600 hover:underline mb-2 inline-block">
               ← 戻る
             </Link>
-            <h1 className="text-3xl font-bold">🍜 飲食出店フォーム</h1>
+            <h1 className="text-3xl font-bold">飲食出店フォーム</h1>
             <p className="mt-2 text-gray-600">屋台・キッチンカー・飲食ブース</p>
           </div>
           <Link
