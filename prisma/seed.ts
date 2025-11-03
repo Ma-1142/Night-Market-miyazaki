@@ -4,8 +4,8 @@ import { hash } from "bcryptjs";
 const prisma = new PrismaClient();
 
 async function main() {
-  // Password for all test users: "password123"
-  const hashedPassword = await hash("password123", 10);
+  // Password for all test users: "passwords123"
+  const hashedPassword = await hash("passwords123", 10);
 
   console.log("Starting database seed...\n");
 
@@ -49,13 +49,13 @@ async function main() {
   console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
   console.log("USER Role:");
   console.log("  Email: user@test.com");
-  console.log("  Password: password123");
+  console.log("  Password: passwords123");
   console.log("\nSTAFF Role:");
   console.log("  Email: staff@test.com");
-  console.log("  Password: password123");
+  console.log("  Password: passwords123");
   console.log("\nADMIN Role:");
   console.log("  Email: admin@test.com");
-  console.log("  Password: password123");
+  console.log("  Password: passwords123");
   console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n");
   console.log("✅ Seed completed successfully!\n");
 }

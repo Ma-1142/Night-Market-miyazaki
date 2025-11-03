@@ -251,7 +251,14 @@ export default async function UserDashboardPage() {
               <h2 className="text-2xl font-bold">管理者との連絡</h2>
               <p className="mt-2 text-gray-600">お知らせの確認や質問はこちらから</p>
             </div>
-            <div className="grid gap-4 md:grid-cols-2">
+            <div className="grid gap-4 md:grid-cols-3">
+              <Link
+                href="/dashboard/user/today"
+                className="flex flex-col items-center rounded-lg border-2 border-green-500 bg-white p-6 text-center transition-all hover:bg-green-50 hover:shadow-lg"
+              >
+                <h3 className="text-lg font-bold text-gray-800">本日の出店</h3>
+                <p className="mt-2 text-sm text-gray-600">到着確認・チェックイン</p>
+              </Link>
               <Link
                 href="/dashboard/user/announcements"
                 className="flex flex-col items-center rounded-lg border-2 border-yellow-500 bg-white p-6 text-center transition-all hover:bg-yellow-50 hover:shadow-lg"

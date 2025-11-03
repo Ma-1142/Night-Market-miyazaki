@@ -5,6 +5,7 @@ import AdminSidebar from "@/components/AdminSidebar";
 import { prisma } from "@/lib/prisma";
 import ApplicationFilters from "@/components/admin/ApplicationFilters";
 import ApplicationsTable from "@/components/admin/ApplicationsTable";
+import Pagination from "@/components/admin/Pagination";
 import { Prisma } from "@prisma/client";
 
 export default async function ApplicationsPage({
@@ -16,6 +17,7 @@ export default async function ApplicationsPage({
     formType?: string;
     dateFrom?: string;
     dateTo?: string;
+    page?: string;
   }>;
 }) {
   const session = await auth();
@@ -30,6 +32,11 @@ export default async function ApplicationsPage({
 
   // Await searchParams in Next.js 16
   const params = await searchParams;
+
+  // Pagination settings
+  const ITEMS_PER_PAGE = 15;
+  const currentPage = parseInt(params.page || "1", 10);
+  const skip = (currentPage - 1) * ITEMS_PER_PAGE;
 
   // Build where clause based on filters
   const where: Prisma.FormWhereInput = {};
@@ -100,6 +107,11 @@ export default async function ApplicationsPage({
     }
   }
 
+  // Get total count for pagination
+  const totalCount = await prisma.form.count({ where });
+  const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
+
+  // Get paginated forms
   const forms = await prisma.form.findMany({
     where,
     include: {
@@ -112,6 +124,8 @@ export default async function ApplicationsPage({
     orderBy: {
       createdAt: "desc",
     },
+    skip,
+    take: ITEMS_PER_PAGE,
   });
 
   return (
@@ -137,6 +151,15 @@ export default async function ApplicationsPage({
 
           {/* Applications Table with bulk actions */}
           <ApplicationsTable forms={forms} />
+
+          {/* Pagination */}
+          {totalPages > 1 && (
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              totalCount={totalCount}
+            />
+          )}
         </div>
       </div>
     </div>

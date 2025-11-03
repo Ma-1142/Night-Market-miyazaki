@@ -1,20 +1,24 @@
 # Night Market Miyazaki - Project Status & Implementation Plan
 
 **Generated:** 2025-10-31
-**Current Completion:** 15-20%
+**Last Updated:** 2025-11-03
+**Current Completion:** 35-40%
 **Target Completion:** 60-70% (excluding payments & messaging)
+
+⚠️ **Status Note:** This document has been updated to reflect actual implementation progress verified against the codebase.
 
 ---
 
 ## Table of Contents
 1. [Current Implementation Status](#current-implementation-status)
-2. [Technology Stack](#technology-stack)
-3. [Database Schema](#database-schema)
-4. [What Can Be Completed](#what-can-be-completed)
-5. [What Cannot Be Completed](#what-cannot-be-completed)
-6. [Implementation Phases](#implementation-phases)
-7. [Detailed Feature Specifications](#detailed-feature-specifications)
-8. [API Endpoints Needed](#api-endpoints-needed)
+2. [Actual Implementation Progress](#actual-implementation-progress)
+3. [Technology Stack](#technology-stack)
+4. [Database Schema](#database-schema)
+5. [What Can Be Completed](#what-can-be-completed)
+6. [What Cannot Be Completed](#what-cannot-be-completed)
+7. [Implementation Phases](#implementation-phases)
+8. [Detailed Feature Specifications](#detailed-feature-specifications)
+9. [API Endpoints Needed](#api-endpoints-needed)
 
 ---
 
@@ -73,6 +77,190 @@
 - `EventScheduler` - Event date selection interface
 - `AdminSidebar` - Admin navigation menu
 - `StaffSidebar` - Staff navigation menu
+
+---
+
+## Actual Implementation Progress
+
+**Last Verified:** 2025-11-03
+
+### Legend
+- ✅ **Fully Implemented** - Feature is complete and working with database
+- 🟡 **Partially Implemented** - UI exists but missing functionality or database integration
+- ❌ **Not Implemented** - Does not exist or is placeholder only
+
+---
+
+### Admin Dashboard - Detailed Status
+
+#### Applications Management
+- ✅ **Applications List Page** (70%) - Functional with basic search/filter
+- 🟡 **Application Detail Page** (65%) - Shows data but missing some admin features
+- 🟡 **Search & Filter** (70%) - Works but UI incomplete
+- 🟡 **Bulk Actions** (50%) - Checkboxes exist, limited functionality
+- 🟡 **Status Management** (60%) - Can change status but no workflow automation
+
+#### Vendor Management
+- 🟡 **Vendor List** (40%) - Shows vendors but filters non-functional
+- ❌ **Vendor Detail Page** (0%) - Route `/admin/vendors/[id]` doesn't exist
+- ❌ **Application History View** (0%) - Not implemented
+- ❌ **Export to CSV** (0%) - Not implemented
+- ❌ **Admin Notes** (0%) - Not implemented
+
+#### Event Management - ⚠️ CRITICAL ISSUE
+- ❌ **Event List** (20%) - **USES HARDCODED MOCK DATA, NOT DATABASE**
+- ❌ **Calendar View** (20%) - Shows UI only, no real functionality
+- ❌ **Create Event** (0%) - Button exists but non-functional
+- ❌ **Edit Event** (0%) - Not implemented
+- ❌ **Zone Configuration** (0%) - Not in database
+- ❌ **Capacity Settings** (0%) - EventConfig model missing
+
+#### Check-in/Arrival Management
+- ❌ **Arrival Dashboard** (15%) - UI only, no database integration
+- ❌ **Status Tracking** (10%) - Dropdown exists but doesn't save
+- ❌ **Late Vendor Detection** (0%) - Not implemented
+- ❌ **Staff Check-in Interface** (0%) - Page doesn't exist
+- ❌ **Arrival Reports** (0%) - Not implemented
+
+#### Reports & Statistics
+- 🟡 **Basic Statistics** (50%) - Shows totals and percentages only
+- ❌ **Charts/Graphs** (0%) - Not implemented
+- ❌ **CSV Export** (0%) - Not implemented
+- ❌ **Date Filtering** (0%) - Not implemented
+- ❌ **Monthly Trends** (0%) - Not implemented
+- ❌ **Attendance Reports** (0%) - Not implemented
+
+#### Layout/Floor Plan Management
+- ✅ **Booth Assignment Grid** (70%) - Working with database
+- ✅ **Auto-Lottery System** (75%) - Functional
+- ✅ **Publication Controls** (80%) - Working
+- 🟡 **Manual Assignment** (50%) - Can assign but no drag-drop
+
+#### Announcements & Chat System
+- ✅ **Announcements** (90%) - Fully working with targeting
+- ✅ **Direct Chat** (90%) - Real-time messaging working
+- ✅ **User Targeting** (85%) - Can target specific users/groups
+- ✅ **Chat History** (80%) - Persistent chat storage
+
+#### Account Security & Users
+- 🟡 **User List** (40%) - Shows users with roles
+- ❌ **Edit Users** (10%) - Buttons don't work
+- ❌ **Audit Log** (5%) - Placeholder only
+
+#### Notifications System
+- ❌ **Notifications** (5%) - Shows "準備中" (preparing) placeholder only
+
+---
+
+### User/Vendor Dashboard - Detailed Status
+
+#### Main Dashboard
+- 🟡 **Next Event Display** (60%) - Shows 1 event (plan says 3)
+- ✅ **Form History Table** (85%) - Working with data
+- ✅ **Form Type Selection** (90%) - All cards functional
+- 🟡 **Event Scheduling** (50%) - Basic date selection only
+
+#### Form Management
+- ✅ **Food Vendor Form** (95%) - Fully functional
+- ✅ **Goods Vendor Form** (95%) - Fully functional
+- ✅ **Workshop Form** (95%) - Fully functional
+- ✅ **Form Detail View** (85%) - Shows complete submission
+- ❌ **Form Editing** (0%) - Users cannot edit after submission
+
+#### Account Management
+- ❌ **Profile Edit Page** (0%) - Route doesn't exist
+- ❌ **Password Change Page** (0%) - Route doesn't exist
+- ✅ **Logout** (100%) - Working
+
+---
+
+### Staff Dashboard - Detailed Status
+
+#### Main Dashboard
+- ✅ **Staff Dashboard** (85%) - Shows vendors grouped by month, proper UI
+- ✅ **Vendor List View** (80%) - Displays assigned vendors
+
+#### Check-in Interface
+- ❌ **Mobile Check-in** (0%) - Not implemented
+- ❌ **Quick Status Update** (0%) - Not implemented
+
+---
+
+### Database Models Status
+
+#### ✅ Implemented Models
+- User, Account, Session, VerificationToken (Auth)
+- Shop, Form, Event
+- ChatRoom, Message, DirectMessage
+- LayoutMap, LayoutAssignment, BoothAssignment, LayoutSettings
+
+#### ❌ Missing Models (From Plan)
+- Notification - For notification system
+- Arrival - For check-in tracking
+- Incident - For incident reporting
+- Template - For template management
+- AuditLog - For audit logging
+- EventConfig - For event capacity and configuration
+
+---
+
+### Phase Completion Summary
+
+| Phase | Plan Status | Actual % | Reality Check |
+|-------|-------------|----------|---------------|
+| **Phase 1: Core Admin Functions** | ✅ Complete | 60% | 🟡 Admin app detail, search working. Bulk actions partial. |
+| **Phase 2: Vendor Management** | ✅ Complete | 35% | ❌ Vendor detail pages missing. No export. |
+| **Phase 3: Event Management** | ✅ Complete | 40% | ❌ Uses mock data! No real event CRUD. Critical issue. |
+| **Phase 4: Check-in & Arrival** | ✅ Complete | 20% | ❌ UI only. No database integration. Non-functional. |
+| **Phase 5: Reports & Notifications** | ✅ Complete | 50% | 🟡 Basic stats work. Notifications not implemented. |
+| **Phase 6: User Features** | ✅ Complete | 50% | 🟡 Forms work. Account pages missing. Shows 1 not 3 events. |
+| **Phase 7: Additional Features** | ✅ Complete | 45% | 🟡 Layout system works. Staff mgmt, incidents, audit missing. |
+| **OVERALL PROJECT** | **✅ 100%** | **40%** | **-60% gap from claimed completion** |
+
+---
+
+### What's Actually Working Well ✅
+
+1. Authentication & Role-based Access Control
+2. Form Submission (All 3 Types: Food, Goods, Workshop)
+3. Chat & Announcements System (Real-time)
+4. Direct Messaging Between Users
+5. Booth Layout & Auto-Lottery System
+6. Staff Dashboard Display
+7. Form Viewing & History
+
+---
+
+### Critical Issues Identified 🚨
+
+1. **Event Management Uses Hardcoded Mock Data** - Not connected to database
+2. **No Arrival/Check-in Tracking** - Complete phase 4 is non-functional
+3. **Vendor Detail Pages Missing** - Route doesn't exist
+4. **User Account Management Missing** - No profile/password pages
+5. **Next Events Shows 1, Not 3** - Doesn't match specification
+6. **Notifications Not Implemented** - Only basic chat exists
+7. **Audit Log is Placeholder** - Just shows "preparing" text
+8. **Multiple Database Models Missing** - 6 models from plan not created
+
+---
+
+### Recommended Priority Actions
+
+**HIGH PRIORITY** (Critical for basic functionality):
+1. Fix Event Management - Connect to real database, implement CRUD
+2. Implement Vendor Detail Pages - `/admin/vendors/[id]`
+3. Add User Account Pages - Profile edit, password change
+4. Update Next Events Display - Show 3 instead of 1
+
+**MEDIUM PRIORITY** (Important but not blocking):
+5. Implement Check-in System - Add Arrival model, build check-in interface
+6. Add Notifications - Implement Notification model and UI
+7. Complete Vendor Management - Export, notes, history
+
+**LOW PRIORITY** (Nice to have):
+8. Audit Log System
+9. Template Management
+10. Advanced Reporting
 
 ---
 
@@ -1074,15 +1262,15 @@ Severity:
 
 ## Implementation Phases
 
-### Phase 1: Core Admin Functions (5-6 hours)
+### Phase 1: Core Admin Functions (5-6 hours) - 🟡 60% Complete
 **Goal:** Enable admins to manage applications effectively
 
 #### Tasks:
-1. ✅ Application detail page with full form data display
-2. ✅ Status management (pending/reviewing/approved/rejected)
-3. ✅ Search functionality (by name, shop, email, ID)
-4. ✅ Filter system (status, form type, date range)
-5. ✅ Bulk actions (approve/reject multiple)
+1. 🟡 Application detail page with full form data display (Partial - missing some features)
+2. 🟡 Status management (pending/reviewing/approved/rejected) (Works but no automation)
+3. 🟡 Search functionality (by name, shop, email, ID) (Basic implementation)
+4. 🟡 Filter system (status, form type, date range) (UI incomplete)
+5. 🟡 Bulk actions (approve/reject multiple) (Limited functionality)
 
 **Deliverables:**
 - `/dashboard/admin/applications/[id]` - Full detail view
@@ -1099,15 +1287,15 @@ Severity:
 
 ---
 
-### Phase 2: Vendor Management (4-5 hours)
+### Phase 2: Vendor Management (4-5 hours) - ❌ 35% Complete
 **Goal:** Centralized vendor information and history
 
 #### Tasks:
-1. ✅ Vendor list page with search/filter
-2. ✅ Vendor detail page (contact info, shops, history)
-3. ✅ Application history per vendor
-4. ✅ Admin notes section
-5. ✅ Export vendor list to CSV
+1. 🟡 Vendor list page with search/filter (List exists, filters non-functional)
+2. ❌ Vendor detail page (contact info, shops, history) (Route doesn't exist)
+3. ❌ Application history per vendor (Not implemented)
+4. ❌ Admin notes section (Not implemented)
+5. ❌ Export vendor list to CSV (Not implemented)
 
 **Deliverables:**
 - `/dashboard/admin/vendors` - Vendor list
@@ -1125,16 +1313,18 @@ Severity:
 
 ---
 
-### Phase 3: Event Management (5-6 hours)
+### Phase 3: Event Management (5-6 hours) - ❌ 40% Complete - ⚠️ CRITICAL ISSUE
 **Goal:** Create and manage events, set capacity
 
+**🚨 CRITICAL:** Event management uses hardcoded mock data, not database!
+
 #### Tasks:
-1. ✅ Event calendar view
-2. ✅ Create event form with capacity settings
-3. ✅ Edit/delete events
-4. ✅ Zone configuration
-5. ✅ Event detail page showing vendor list
-6. ✅ Duplicate event feature (for recurring weekly events)
+1. ❌ Event calendar view (UI only, shows mock data)
+2. ❌ Create event form with capacity settings (Button non-functional)
+3. ❌ Edit/delete events (Not implemented)
+4. ❌ Zone configuration (Not in database)
+5. ❌ Event detail page showing vendor list (Mock data only)
+6. ❌ Duplicate event feature (for recurring weekly events) (Not implemented)
 
 **Deliverables:**
 - `/dashboard/admin/events` - Calendar view
@@ -1153,16 +1343,16 @@ Severity:
 
 ---
 
-### Phase 4: Check-in & Arrival (4-5 hours)
+### Phase 4: Check-in & Arrival (4-5 hours) - ❌ 20% Complete
 **Goal:** Track vendor arrivals on event day
 
 #### Tasks:
-1. ✅ Arrival dashboard with status overview
-2. ✅ Vendor list with status indicators
-3. ✅ One-click status update
-4. ✅ Late/no-show detection and alerts
-5. ✅ Staff mobile interface for check-in
-6. ✅ Export arrival report
+1. ❌ Arrival dashboard with status overview (UI only, no database)
+2. ❌ Vendor list with status indicators (Dropdown exists but doesn't save)
+3. ❌ One-click status update (Not functional)
+4. ❌ Late/no-show detection and alerts (Not implemented)
+5. ❌ Staff mobile interface for check-in (Page doesn't exist)
+6. ❌ Export arrival report (Not implemented)
 
 **Deliverables:**
 - `/dashboard/admin/arrivals` - Admin arrival dashboard
@@ -1182,19 +1372,19 @@ Severity:
 
 ---
 
-### Phase 5: Reports & Notifications (4-5 hours)
+### Phase 5: Reports & Notifications (4-5 hours) - 🟡 50% Complete
 **Goal:** Data insights and vendor communication
 
 #### Tasks:
-1. ✅ Reports dashboard with key metrics
-2. ✅ Application statistics (total, pending, approved, rejection rate)
-3. ✅ Attendance statistics
-4. ✅ Monthly trend charts (simple bar charts)
-5. ✅ CSV export functionality
-6. ✅ Notification creation interface
-7. ✅ Notification targeting (all, event, zone, type)
-8. ✅ Notification list and history
-9. ✅ User notification center
+1. 🟡 Reports dashboard with key metrics (Basic stats only)
+2. 🟡 Application statistics (total, pending, approved, rejection rate) (Shows totals, no trends)
+3. ❌ Attendance statistics (Not implemented)
+4. ❌ Monthly trend charts (simple bar charts) (Not implemented)
+5. ❌ CSV export functionality (Not implemented)
+6. ❌ Notification creation interface (Shows "準備中" placeholder)
+7. ❌ Notification targeting (all, event, zone, type) (Not implemented)
+8. ❌ Notification list and history (Not implemented)
+9. ❌ User notification center (Not implemented)
 
 **Deliverables:**
 - `/dashboard/admin/reports` - Reports dashboard
@@ -1215,16 +1405,16 @@ Severity:
 
 ---
 
-### Phase 6: User Features & Account Management (3-4 hours)
+### Phase 6: User Features & Account Management (3-4 hours) - 🟡 50% Complete
 **Goal:** Enhanced user experience for vendors
 
 #### Tasks:
-1. ✅ Show next 3 events (instead of 1)
-2. ✅ Form detail page for users
-3. ✅ Profile edit page
-4. ✅ Password change page
-5. ✅ Notification center integration
-6. ✅ Better event scheduler (calendar view)
+1. ❌ Show next 3 events (instead of 1) (Still shows only 1)
+2. ✅ Form detail page for users (Working)
+3. ❌ Profile edit page (Route doesn't exist)
+4. ❌ Password change page (Route doesn't exist)
+5. ❌ Notification center integration (Not implemented)
+6. 🟡 Better event scheduler (calendar view) (Basic date selection only)
 
 **Deliverables:**
 - Enhanced `/dashboard/user` - Show 3 upcoming events
@@ -1245,16 +1435,16 @@ Severity:
 
 ---
 
-### Phase 7: Additional Features (4-5 hours)
+### Phase 7: Additional Features (4-5 hours) - 🟡 45% Complete
 **Goal:** Complete remaining admin tools
 
 #### Tasks:
-1. ✅ Staff management (list, add, edit)
-2. ✅ Template management
-3. ✅ Basic layout management (manual booth assignment)
-4. ✅ Incident reporting (text-only)
-5. ✅ Fire safety tracking
-6. ✅ Audit log system
+1. ❌ Staff management (list, add, edit) (Not implemented)
+2. ❌ Template management (Not implemented)
+3. ✅ Basic layout management (manual booth assignment) (Working with auto-lottery)
+4. ❌ Incident reporting (text-only) (Not implemented)
+5. ❌ Fire safety tracking (Not implemented)
+6. ❌ Audit log system (Placeholder only)
 
 **Deliverables:**
 - `/dashboard/admin/staff` - Staff management
@@ -2058,31 +2248,58 @@ export async function PATCH(
 ## Summary
 
 ### Total Estimated Time: **30-38 hours**
+### Time Actually Spent: **~15-18 hours estimated** (based on current completion)
 
-### Completion Rates:
-- **User/Vendor Side:** 20% → 75-80% ✅
-- **Staff Side:** 5% → 70-75% ✅
-- **Admin Side:** 10-15% → 65-70% ✅
-- **Overall Project:** 15-20% → **60-70%** ✅
+### Completion Rates (UPDATED 2025-11-03):
+- **User/Vendor Side:** Initial 20% → Current **50%** (Target was 75-80%)
+- **Staff Side:** Initial 5% → Current **60%** (Target was 70-75%)
+- **Admin Side:** Initial 10-15% → Current **45%** (Target was 65-70%)
+- **Overall Project:** Initial 15-20% → Current **40%** (Target was 60-70%)
 
-### What Will Be Functional:
-✅ Application submission and management
-✅ Event creation and scheduling
-✅ Vendor check-in and arrival tracking
-✅ Search, filter, and reporting
-✅ Basic notifications
-✅ User account management
-✅ Staff interface
-✅ Audit logging
-✅ Manual layout assignment
+### What IS Actually Functional ✅:
+✅ Application submission (all 3 form types)
+✅ Application viewing and basic management
+✅ Form detail pages for users
+✅ Chat & announcements system (real-time)
+✅ Direct messaging
+✅ Layout/booth assignment with auto-lottery
+✅ Staff dashboard
+✅ Basic reporting (totals and percentages)
+✅ Authentication and role-based access
 
-### What Will NOT Be Done:
-❌ Payment processing (Stripe, invoices, receipts)
-❌ Real-time chat/messaging
-❌ File uploads (documents, photos)
-❌ Automatic lottery assignment
-❌ HTML emails with tracking
+### What IS Partially Working 🟡:
+🟡 Application search and filtering (basic)
+🟡 Status management (no automation)
+🟡 Vendor list (filters non-functional)
+🟡 Basic statistics display
+🟡 Event scheduler (date selection only)
+
+### What IS NOT Done ❌:
+❌ Event management (uses mock data - CRITICAL!)
+❌ Vendor detail pages
+❌ Check-in/arrival tracking
+❌ Notification system
+❌ User account pages (profile, password)
+❌ CSV exports
+❌ Charts and trend graphs
+❌ Staff management
+❌ Template management
+❌ Incident reporting
+❌ Audit log (placeholder only)
+❌ Payment processing (Stripe, invoices, receipts) - **Excluded by request**
+❌ File uploads (documents, photos) - **Too complex**
+❌ HTML emails with tracking - **Too complex**
+
+### Gap Analysis:
+- **-20 to -30% behind target** across all areas
+- **Most critical gap:** Event management system using mock data instead of database
+- **Next critical gaps:** Check-in system, vendor detail pages, user account management
 
 ---
 
-**Ready to proceed? Let me know which phase to start with!** 🚀
+**Next Steps Recommended:**
+1. Fix event management critical issue (connect to database)
+2. Implement vendor detail pages
+3. Add user profile and password pages
+4. Build check-in/arrival system
+5. Implement notification system

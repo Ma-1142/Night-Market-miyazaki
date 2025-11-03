@@ -118,6 +118,12 @@ export default async function StaffDashboardPage() {
             </div>
             <div className="flex gap-2">
               <Link
+                href="/dashboard/staff/arrivals/today"
+                className="rounded-md bg-green-600 px-4 py-2 text-white hover:bg-green-700"
+              >
+                到着確認
+              </Link>
+              <Link
                 href="/dashboard/staff/announcements"
                 className="rounded-md bg-yellow-600 px-4 py-2 text-white hover:bg-yellow-700"
               >

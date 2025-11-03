@@ -61,11 +61,11 @@ export default function StaffSidebar() {
               2. 出店者一覧
             </Link>
             <Link
-              href="/dashboard/staff/option3"
+              href="/dashboard/staff/arrivals/today"
               className="block rounded-md px-4 py-2 text-gray-700 hover:bg-gray-100"
               onClick={() => setIsOpen(false)}
             >
-              3. オプション3
+              3. 本日の到着確認
             </Link>
             <Link
               href="/dashboard/staff/submissions"

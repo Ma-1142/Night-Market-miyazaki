@@ -186,3 +186,25 @@ model BoothAssignment {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+// Vendor arrival tracking with two-step confirmation
+model Arrival {
+  id                String    @id @default(cuid())
+  formId            String
+  eventDate         DateTime
+
+  // Vendor self-check-in
+  vendorCheckedIn   Boolean   @default(false)
+  vendorCheckedInAt DateTime?
+
+  // Staff confirmation
+  staffConfirmed    Boolean   @default(false)
+  staffConfirmedAt  DateTime?
+  staffConfirmedBy  String?   // Staff user ID
+
+  notes             String?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  @@unique([formId, eventDate])
+}
