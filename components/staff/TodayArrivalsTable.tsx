@@ -30,6 +30,7 @@ export default function TodayArrivalsTable() {
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [confirmingId, setConfirmingId] = useState<string | null>(null);
+  const [resettingId, setResettingId] = useState<string | null>(null);
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
   // Fetch arrivals
@@ -93,6 +94,47 @@ export default function TodayArrivalsTable() {
       });
     } finally {
       setConfirmingId(null);
+    }
+  };
+
+  // Handle reset arrival status
+  const handleReset = async (arrivalId: string) => {
+    if (!confirm("到着状態をリセットしてもよろしいですか？")) {
+      return;
+    }
+
+    setResettingId(arrivalId);
+    setMessage(null);
+
+    try {
+      const response = await fetch("/api/arrivals/reset", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          arrivalId,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Reset failed");
+      }
+
+      setMessage({
+        type: "success",
+        text: "到着状態をリセットしました",
+      });
+
+      // Refresh data
+      await fetchArrivals();
+    } catch (error) {
+      setMessage({
+        type: "error",
+        text: "エラーが発生しました。もう一度お試しください。",
+      });
+    } finally {
+      setResettingId(null);
     }
   };
 
@@ -296,26 +338,58 @@ export default function TodayArrivalsTable() {
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      {arrival.status === "checked_in" ? (
-                        <button
-                          onClick={() => handleConfirm(arrival.id)}
-                          disabled={confirmingId === arrival.id}
-                          className="rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
-                        >
-                          {confirmingId === arrival.id ? "確認中..." : "確認"}
-                        </button>
-                      ) : arrival.status === "confirmed" ? (
-                        <span className="text-green-600">
-                          ✓ {arrival.staffConfirmedAt
-                            ? new Date(arrival.staffConfirmedAt).toLocaleTimeString("ja-JP", {
-                                hour: "2-digit",
-                                minute: "2-digit",
-                              })
-                            : "確認済み"}
-                        </span>
-                      ) : (
-                        <span className="text-gray-400">待機中</span>
-                      )}
+                      <div className="flex items-center gap-2">
+                        {arrival.status === "checked_in" ? (
+                          <>
+                            <button
+                              onClick={() => handleConfirm(arrival.id)}
+                              disabled={confirmingId === arrival.id}
+                              className="rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
+                            >
+                              {confirmingId === arrival.id ? "確認中..." : "確認"}
+                            </button>
+                            <button
+                              onClick={() => handleReset(arrival.id)}
+                              disabled={resettingId === arrival.id}
+                              className="rounded-md bg-gray-500 px-3 py-2 text-white hover:bg-gray-600 disabled:bg-gray-400 disabled:cursor-not-allowed"
+                              title="リセット"
+                            >
+                              {resettingId === arrival.id ? "..." : "↺"}
+                            </button>
+                          </>
+                        ) : arrival.status === "confirmed" ? (
+                          <>
+                            <span className="text-green-600">
+                              ✓ {arrival.staffConfirmedAt
+                                ? new Date(arrival.staffConfirmedAt).toLocaleTimeString("ja-JP", {
+                                    hour: "2-digit",
+                                    minute: "2-digit",
+                                  })
+                                : "確認済み"}
+                            </span>
+                            <button
+                              onClick={() => handleReset(arrival.id)}
+                              disabled={resettingId === arrival.id}
+                              className="rounded-md bg-gray-500 px-3 py-2 text-white hover:bg-gray-600 disabled:bg-gray-400 disabled:cursor-not-allowed"
+                              title="リセット"
+                            >
+                              {resettingId === arrival.id ? "..." : "↺"}
+                            </button>
+                          </>
+                        ) : (
+                          <>
+                            <span className="text-gray-400">待機中</span>
+                            <button
+                              onClick={() => handleReset(arrival.id)}
+                              disabled={resettingId === arrival.id}
+                              className="rounded-md bg-gray-500 px-3 py-2 text-white hover:bg-gray-600 disabled:bg-gray-400 disabled:cursor-not-allowed"
+                              title="リセット"
+                            >
+                              {resettingId === arrival.id ? "..." : "↺"}
+                            </button>
+                          </>
+                        )}
+                      </div>
                     </td>
                   </tr>
                 ))}

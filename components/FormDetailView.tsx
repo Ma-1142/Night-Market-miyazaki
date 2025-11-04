@@ -105,7 +105,23 @@ function FoodDetailView({ formData, displayArray }: { formData: any; displayArra
 
         <div>
           <label className="block text-sm font-medium text-gray-700">9. 主な販売メニュー</label>
-          <p className="mt-1 text-gray-900 whitespace-pre-wrap">{formData.menuItems || "未設定"}</p>
+          <div className="mt-1 text-gray-900">
+            {formData.menuItems ? (
+              Array.isArray(formData.menuItems) ? (
+                <ul className="list-disc list-inside space-y-1">
+                  {formData.menuItems.map((item: any, index: number) => (
+                    <li key={index}>
+                      {typeof item === 'string' ? item : `${item.name} - ${item.price}`}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="whitespace-pre-wrap">{formData.menuItems}</p>
+              )
+            ) : (
+              "未設定"
+            )}
+          </div>
         </div>
 
         <div>

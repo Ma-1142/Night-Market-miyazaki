@@ -53,6 +53,19 @@ export async function GET() {
       },
     });
 
+    // Get layout map - check if there's a published layout
+    let layoutMapData = null;
+    const layoutSettings = await prisma.layoutSettings.findFirst();
+
+    if (layoutSettings && layoutSettings.isPublished) {
+      layoutMapData = {
+        id: layoutSettings.id,
+        imageUrl: "/arrangement.png", // The static layout image
+        publishedAt: layoutSettings.publishAt,
+        isPublished: true,
+      };
+    }
+
     // Get or create arrival record for today
     const arrival = await prisma.arrival.findUnique({
       where: {
@@ -84,6 +97,7 @@ export async function GET() {
         shopName: formData.shopName || formData.brandName || formData.boothName || event.form.shop.name,
         formType: formData.formType,
         boothId: boothAssignment?.boothId || null,
+        layoutMap: layoutMapData,
         arrival: arrival || {
           vendorCheckedIn: false,
           vendorCheckedInAt: null,
