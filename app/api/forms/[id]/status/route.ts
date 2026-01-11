@@ -19,7 +19,7 @@ export async function PATCH(
     const { status, adminNotes } = body;
 
     // Validate status
-    if (!["pending", "reviewing", "conditional", "approved", "rejected"].includes(status)) {
+    if (!["pending", "reviewing", "conditional", "awaiting_payment", "approved", "rejected"].includes(status)) {
       return NextResponse.json(
         { error: "Invalid status value" },
         { status: 400 }

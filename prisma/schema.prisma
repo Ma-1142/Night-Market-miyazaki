@@ -96,6 +96,24 @@ model Form {
 
   shop       Shop     @relation(fields: [shopId], references: [id], onDelete: Cascade)
   events     Event[]
+  payment    Payment?
+}
+
+model Payment {
+  id                String    @id @default(cuid())
+  formId            String    @unique
+  stripeSessionId   String?   @unique
+  stripePaymentId   String?   @unique
+  amount            Int       // Amount in JPY
+  currency          String    @default("jpy")
+  status            String    @default("pending") // pending, completed, failed, refunded
+  boothType         String    // tent, yatai, kitchencarA, kitchencarB
+  participationPlan String    // 1month, 6months, 1year
+  paidAt            DateTime?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  form              Form      @relation(fields: [formId], references: [id], onDelete: Cascade)
 }
 
 model Event {

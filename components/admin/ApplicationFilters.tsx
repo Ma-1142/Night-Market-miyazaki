@@ -74,6 +74,7 @@ export default function ApplicationFilters() {
             <option value="pending">受理</option>
             <option value="reviewing">審査中</option>
             <option value="conditional">条件提示</option>
+            <option value="awaiting_payment">決済待ち</option>
             <option value="approved">確定</option>
             <option value="rejected">却下</option>
           </select>
@@ -158,6 +159,8 @@ export default function ApplicationFilters() {
                   ? "審査中"
                   : status === "conditional"
                   ? "条件提示"
+                  : status === "awaiting_payment"
+                  ? "決済待ち"
                   : status === "approved"
                   ? "確定"
                   : "却下"}

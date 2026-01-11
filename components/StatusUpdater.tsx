@@ -57,6 +57,8 @@ export default function StatusUpdater({ formId, currentStatus, currentAdminNotes
         return "審査中";
       case "conditional":
         return "条件提示";
+      case "awaiting_payment":
+        return "決済待ち";
       case "approved":
         return "確定";
       case "rejected":
@@ -96,6 +98,7 @@ export default function StatusUpdater({ formId, currentStatus, currentAdminNotes
             <option value="pending">{getStatusLabel("pending")}</option>
             <option value="reviewing">{getStatusLabel("reviewing")}</option>
             <option value="conditional">{getStatusLabel("conditional")}</option>
+            <option value="awaiting_payment">{getStatusLabel("awaiting_payment")}</option>
             <option value="approved">{getStatusLabel("approved")}</option>
             <option value="rejected">{getStatusLabel("rejected")}</option>
           </select>

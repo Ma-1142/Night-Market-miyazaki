@@ -221,6 +221,8 @@ export default function ApplicationsTable({ forms }: ApplicationsTableProps) {
                           ? "bg-blue-100 text-blue-800"
                           : form.status === "conditional"
                           ? "bg-orange-100 text-orange-800"
+                          : form.status === "awaiting_payment"
+                          ? "bg-purple-100 text-purple-800"
                           : "bg-yellow-100 text-yellow-800"
                       }`}
                     >
@@ -230,6 +232,8 @@ export default function ApplicationsTable({ forms }: ApplicationsTableProps) {
                         ? "審査中"
                         : form.status === "conditional"
                         ? "条件提示"
+                        : form.status === "awaiting_payment"
+                        ? "決済待ち"
                         : form.status === "approved"
                         ? "確定"
                         : "却下"}

@@ -3,6 +3,8 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import EventScheduler from "@/components/EventScheduler";
+import PaymentBanner from "@/components/PaymentBanner";
+import { getPrice } from "@/lib/stripe/pricing";
 
 export default async function UserDashboardPage() {
   const session = await auth();
@@ -29,6 +31,7 @@ export default async function UserDashboardPage() {
           date: "asc",
         },
       },
+      payment: true,
     },
     orderBy: {
       createdAt: "desc",
@@ -37,6 +40,9 @@ export default async function UserDashboardPage() {
 
   // Separate approved forms for scheduling section
   const approvedForms = userForms.filter((form) => form.status === "approved");
+
+  // Separate forms awaiting payment
+  const awaitingPaymentForms = userForms.filter((form) => form.status === "awaiting_payment");
 
   // Get next upcoming event for this user's forms
   const nextEvent = await prisma.event.findFirst({
@@ -120,6 +126,29 @@ export default async function UserDashboardPage() {
                 </p>
               </div>
             </div>
+          </div>
+        )}
+
+        {/* Payment Banners for Awaiting Payment Forms */}
+        {awaitingPaymentForms.length > 0 && (
+          <div className="mb-8 space-y-4">
+            {awaitingPaymentForms.map((form) => {
+              const formData = form.data as Record<string, unknown>;
+              const boothType = formData.boothType as string;
+              const participationPlan = formData.participationPlan as string;
+              const amount = form.payment?.amount || getPrice(boothType, participationPlan) || 0;
+
+              return (
+                <PaymentBanner
+                  key={form.id}
+                  formId={form.id}
+                  shopName={form.shop.name}
+                  boothType={boothType}
+                  participationPlan={participationPlan}
+                  amount={amount}
+                />
+              );
+            })}
           </div>
         )}
 
@@ -216,6 +245,11 @@ export default async function UserDashboardPage() {
                           {form.status === "conditional" && (
                             <span className="inline-flex rounded-full bg-orange-100 px-2 text-xs font-semibold leading-5 text-orange-800">
                               条件提示
+                            </span>
+                          )}
+                          {form.status === "awaiting_payment" && (
+                            <span className="inline-flex rounded-full bg-purple-100 px-2 text-xs font-semibold leading-5 text-purple-800">
+                              決済待ち
                             </span>
                           )}
                           {form.status === "approved" && (

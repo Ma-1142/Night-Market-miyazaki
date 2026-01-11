@@ -172,10 +172,14 @@ export default function ShopForm() {
                 className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
               >
                 <option value="">選択してください</option>
-                <option value="yatai">屋台</option>
-                <option value="kitchencar">キッチンカー</option>
-                <option value="tent">テント</option>
+                <option value="tent">テント出店</option>
+                <option value="yatai">屋台出店（1年プランのみ）</option>
+                <option value="kitchencarA">キッチンカーA（軽自動車・3.5m以内）</option>
+                <option value="kitchencarB">キッチンカーB（大型・3.5m以上）</option>
               </select>
+              <p className="mt-1 text-xs text-gray-500">
+                ※屋台出店は1年プランのみとなります
+              </p>
             </div>
 
             <div>
@@ -210,9 +214,11 @@ export default function ShopForm() {
                 <option value="">選択してください</option>
                 <option value="1month">1ヶ月</option>
                 <option value="6months">6ヶ月</option>
-                <option value="1yearA">1年間A</option>
-                <option value="1yearB">1年間B</option>
+                <option value="1year">1年間</option>
               </select>
+              <p className="mt-1 text-xs text-gray-500">
+                ※出店形態により料金が異なります。詳細は料金表をご確認ください
+              </p>
             </div>
           </div>
 

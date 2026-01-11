@@ -22,6 +22,7 @@ export default function GoodsForm() {
       phone: formData.get("phone"),
       email: formData.get("email"),
       emailConfirm: formData.get("emailConfirm"),
+      boothType: formData.get("boothType"),
       participationMonths: participationMonths,
       participationPlan: formData.get("participationPlan"),
       productType: formData.get("productType"),
@@ -140,8 +141,29 @@ export default function GoodsForm() {
             </div>
 
             <div>
+              <label htmlFor="boothType" className="block text-sm font-medium text-gray-700">
+                5. 出店形態 <span className="text-red-500">*</span>
+              </label>
+              <select
+                id="boothType"
+                name="boothType"
+                required
+                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-purple-500 focus:outline-none focus:ring-purple-500"
+              >
+                <option value="">選択してください</option>
+                <option value="tent">テント出店</option>
+                <option value="yatai">屋台出店（1年プランのみ）</option>
+                <option value="kitchencarA">キッチンカーA（軽自動車・3.5m以内）</option>
+                <option value="kitchencarB">キッチンカーB（大型・3.5m以上）</option>
+              </select>
+              <p className="mt-1 text-xs text-gray-500">
+                ※屋台出店は1年プランのみとなります
+              </p>
+            </div>
+
+            <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                5. 出店希望月（複数選択可） <span className="text-red-500">*</span>
+                6. 出店希望月（複数選択可） <span className="text-red-500">*</span>
               </label>
               <div className="grid grid-cols-4 gap-3">
                 {["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"].map((month, index) => (
@@ -160,7 +182,7 @@ export default function GoodsForm() {
 
             <div>
               <label htmlFor="participationPlan" className="block text-sm font-medium text-gray-700">
-                6. 出店プラン <span className="text-red-500">*</span>
+                7. 出店プラン <span className="text-red-500">*</span>
               </label>
               <select
                 id="participationPlan"
@@ -173,6 +195,9 @@ export default function GoodsForm() {
                 <option value="6months">6ヶ月</option>
                 <option value="1year">1年間</option>
               </select>
+              <p className="mt-1 text-xs text-gray-500">
+                ※出店形態により料金が異なります。詳細は料金表をご確認ください
+              </p>
             </div>
           </div>
 
@@ -182,7 +207,7 @@ export default function GoodsForm() {
 
             <div>
               <label htmlFor="productType" className="block text-sm font-medium text-gray-700">
-                7. 取り扱い商品・販売内容 <span className="text-red-500">*</span>
+                8. 取り扱い商品・販売内容 <span className="text-red-500">*</span>
               </label>
               <input
                 id="productType"
@@ -196,7 +221,7 @@ export default function GoodsForm() {
 
             <div>
               <label htmlFor="productFeatures" className="block text-sm font-medium text-gray-700">
-                8. 商品の特徴やこだわり <span className="text-red-500">*</span>
+                9. 商品の特徴やこだわり <span className="text-red-500">*</span>
               </label>
               <textarea
                 id="productFeatures"
@@ -210,7 +235,7 @@ export default function GoodsForm() {
 
             <div>
               <label htmlFor="priceRange" className="block text-sm font-medium text-gray-700">
-                9. 価格帯 <span className="text-red-500">*</span>
+                10. 価格帯 <span className="text-red-500">*</span>
               </label>
               <input
                 id="priceRange"
@@ -224,7 +249,7 @@ export default function GoodsForm() {
 
             <div>
               <label htmlFor="salesDescription" className="block text-sm font-medium text-gray-700">
-                10. 販売内容・PR文
+                11. 販売内容・PR文
               </label>
               <textarea
                 id="salesDescription"
@@ -249,7 +274,7 @@ export default function GoodsForm() {
                   className="mt-1 rounded border-gray-300 text-purple-600 focus:ring-purple-500"
                 />
                 <span className="text-sm">
-                  <span className="font-medium">11. 出店規約・注意事項を確認し、内容に同意します</span> <span className="text-red-500">*</span>
+                  <span className="font-medium">12. 出店規約・注意事項を確認し、内容に同意します</span> <span className="text-red-500">*</span>
                 </span>
               </label>
             </div>
@@ -297,7 +322,7 @@ export default function GoodsForm() {
 
             <div>
               <label htmlFor="productPhotos" className="block text-sm font-medium text-gray-700">
-                12. 商品・ブース写真（任意／最大3点までアップロード）
+                13. 商品・ブース写真（任意／最大3点までアップロード）
               </label>
               <input
                 id="productPhotos"
@@ -316,7 +341,7 @@ export default function GoodsForm() {
 
             <div>
               <label htmlFor="snsLinks" className="block text-sm font-medium text-gray-700">
-                13. SNSリンク
+                14. SNSリンク
               </label>
               <textarea
                 id="snsLinks"
@@ -329,7 +354,7 @@ export default function GoodsForm() {
 
             <div>
               <label htmlFor="remarks" className="block text-sm font-medium text-gray-700">
-                14. 備考欄
+                15. 備考欄
               </label>
               <textarea
                 id="remarks"

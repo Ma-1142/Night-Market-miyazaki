@@ -22,6 +22,7 @@ export default function WorkshopForm() {
       phone: formData.get("phone"),
       email: formData.get("email"),
       emailConfirm: formData.get("emailConfirm"),
+      boothType: formData.get("boothType"),
       participationMonths: participationMonths,
       participationPlan: formData.get("participationPlan"),
       activityContent: formData.get("activityContent"),
@@ -142,8 +143,29 @@ export default function WorkshopForm() {
             </div>
 
             <div>
+              <label htmlFor="boothType" className="block text-sm font-medium text-gray-700">
+                5. 出店形態 <span className="text-red-500">*</span>
+              </label>
+              <select
+                id="boothType"
+                name="boothType"
+                required
+                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-green-500 focus:outline-none focus:ring-green-500"
+              >
+                <option value="">選択してください</option>
+                <option value="tent">テント出店</option>
+                <option value="yatai">屋台出店（1年プランのみ）</option>
+                <option value="kitchencarA">キッチンカーA（軽自動車・3.5m以内）</option>
+                <option value="kitchencarB">キッチンカーB（大型・3.5m以上）</option>
+              </select>
+              <p className="mt-1 text-xs text-gray-500">
+                ※屋台出店は1年プランのみとなります
+              </p>
+            </div>
+
+            <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                5. 出店希望月（複数選択可） <span className="text-red-500">*</span>
+                6. 出店希望月（複数選択可） <span className="text-red-500">*</span>
               </label>
               <div className="grid grid-cols-4 gap-3">
                 {["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"].map((month, index) => (
@@ -162,7 +184,7 @@ export default function WorkshopForm() {
 
             <div>
               <label htmlFor="participationPlan" className="block text-sm font-medium text-gray-700">
-                6. 出店プラン <span className="text-red-500">*</span>
+                7. 出店プラン <span className="text-red-500">*</span>
               </label>
               <select
                 id="participationPlan"
@@ -175,6 +197,9 @@ export default function WorkshopForm() {
                 <option value="6months">6ヶ月</option>
                 <option value="1year">1年間</option>
               </select>
+              <p className="mt-1 text-xs text-gray-500">
+                ※出店形態により料金が異なります。詳細は料金表をご確認ください
+              </p>
             </div>
           </div>
 
@@ -184,7 +209,7 @@ export default function WorkshopForm() {
 
             <div>
               <label htmlFor="activityContent" className="block text-sm font-medium text-gray-700">
-                7. 実施内容・体験内容 <span className="text-red-500">*</span>
+                8. 実施内容・体験内容 <span className="text-red-500">*</span>
               </label>
               <textarea
                 id="activityContent"
@@ -198,7 +223,7 @@ export default function WorkshopForm() {
 
             <div>
               <label htmlFor="durationAndAge" className="block text-sm font-medium text-gray-700">
-                8. 所要時間・対象年齢 <span className="text-red-500">*</span>
+                9. 所要時間・対象年齢 <span className="text-red-500">*</span>
               </label>
               <input
                 id="durationAndAge"
@@ -212,7 +237,7 @@ export default function WorkshopForm() {
 
             <div>
               <label htmlFor="participationFee" className="block text-sm font-medium text-gray-700">
-                9. 参加費 <span className="text-red-500">*</span>
+                10. 参加費 <span className="text-red-500">*</span>
               </label>
               <input
                 id="participationFee"
@@ -226,7 +251,7 @@ export default function WorkshopForm() {
 
             <div>
               <label htmlFor="materialsTools" className="block text-sm font-medium text-gray-700">
-                10. 必要な材料・道具 <span className="text-red-500">*</span>
+                11. 必要な材料・道具 <span className="text-red-500">*</span>
               </label>
               <textarea
                 id="materialsTools"
@@ -240,7 +265,7 @@ export default function WorkshopForm() {
 
             <div>
               <label htmlFor="boothSpace" className="block text-sm font-medium text-gray-700">
-                11. ブーススペース必要サイズ <span className="text-red-500">*</span>
+                12. ブーススペース必要サイズ <span className="text-red-500">*</span>
               </label>
               <input
                 id="boothSpace"
@@ -254,7 +279,7 @@ export default function WorkshopForm() {
 
             <div>
               <label htmlFor="detailedDescription" className="block text-sm font-medium text-gray-700">
-                12. 詳細説明・PR文
+                13. 詳細説明・PR文
               </label>
               <textarea
                 id="detailedDescription"
@@ -279,7 +304,7 @@ export default function WorkshopForm() {
                   className="mt-1 rounded border-gray-300 text-green-600 focus:ring-green-500"
                 />
                 <span className="text-sm">
-                  <span className="font-medium">13. 出店規約・注意事項を確認し、内容に同意します</span> <span className="text-red-500">*</span>
+                  <span className="font-medium">14. 出店規約・注意事項を確認し、内容に同意します</span> <span className="text-red-500">*</span>
                 </span>
               </label>
             </div>
@@ -327,7 +352,7 @@ export default function WorkshopForm() {
 
             <div>
               <label htmlFor="activityPhotos" className="block text-sm font-medium text-gray-700">
-                14. 実施内容・ブース写真（任意／最大3点までアップロード）
+                15. 実施内容・ブース写真（任意／最大3点までアップロード）
               </label>
               <input
                 id="activityPhotos"
@@ -346,7 +371,7 @@ export default function WorkshopForm() {
 
             <div>
               <label htmlFor="snsLinks" className="block text-sm font-medium text-gray-700">
-                15. SNSリンク
+                16. SNSリンク
               </label>
               <textarea
                 id="snsLinks"
@@ -359,7 +384,7 @@ export default function WorkshopForm() {
 
             <div>
               <label htmlFor="remarks" className="block text-sm font-medium text-gray-700">
-                16. 備考欄
+                17. 備考欄
               </label>
               <textarea
                 id="remarks"
